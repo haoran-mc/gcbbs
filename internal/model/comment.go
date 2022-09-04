@@ -24,7 +24,7 @@ type commentModel struct {
 
 func Comment() *commentModel {
 	return &commentModel{
-		M:     db.DB.Model{&Comments{}},
+		M:     db.DB.Model(&Comments{}),
 		Table: "comments",
 	}
 }
