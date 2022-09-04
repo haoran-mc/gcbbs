@@ -20,10 +20,12 @@
 ### 2022-09-03
 
 - `internal/model` 所有 model 代码，对应数据库中的每个表项；
+- 添加 `/docs/v1.0/diary.md` 记录我的进度与以及项目过程；
+- 添加 `/docs/v1.0/introduction_to_project_files.md` 对项目文件作用说明；
 
 ### 2022-09-04
 
-- 添加 `/docs/v1.0/diary.md` 记录我的进度与以及项目过程；
-- 添加 `/docs/v1.0/introduction_to_project_files.md` 对项目文件作用说明；
 - 添加 `internal/service/context.go`，封装 context 上下文，添加鉴权、处理session等方法；
-- `internal/model/frontend`，前台需要用到的实体；
+- `internal/entity/frontend`，前台需要用到的实体；
+- `internal/consts`，常量；
+- `internal/service/checkin.go` 关于签到的逻辑；
