@@ -1,0 +1,44 @@
+package remind
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/haoran-mc/gcbbs/internal/consts"
+	"github.com/haoran-mc/gcbbs/internal/model"
+)
+
+// ReplyObs 回复评论提醒
+type ReplyObs struct {
+	Sender    uint64
+	Receiver  uint64
+	TopicID   uint64
+	CommentId uint64
+}
+
+// Update 回复评论提醒
+func (o *ReplyObs) Update() {
+	var topic *model.Topics
+	r := model.Topic().M.Where("id", o.TopicID).Find(*topic)
+	if r.Error != nil || topic.ID <= 0 {
+		log.Panicln(r.Error)
+	}
+
+	// 用户评论自己没有提醒消息
+	if o.Sender == o.Receiver {
+		return
+	}
+
+	r = model.Remind().M.Create(&model.Reminds{
+		Sender:        o.Sender,
+		Receiver:      o.Receiver,
+		SourceId:      topic.ID,
+		SourceContent: topic.Title,
+		SourceType:    consts.TopicSource,
+		SourceUrl:     fmt.Sprintf("/topics/%d?j=comment%d", o.TopicID, o.CommentId),
+		Action:        consts.ReplyCommentRemind,
+	})
+	if r.Error != nil {
+		log.Panicln(r.Error)
+	}
+}
