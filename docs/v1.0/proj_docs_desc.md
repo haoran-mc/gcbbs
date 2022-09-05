@@ -66,29 +66,50 @@ SOURCE /path/to/create_table.sql
 ## internal
 ### model
 
-model 包中每个结构体对应数据库中的每张表，为了方便后续使用，我们像这样把它们封装起来：
+#### checkin.go
 
 ```go
-type userModel struct {
-    M     *gorm.DB
-    Table string
+// Checkins 签到
+type Checkins struct {
+	NoDeleteModel
+	UserId         uint64    `gorm:"column:user_id" db:"user_id" json:"user_id" form:"user_id"`                                 // 用户 ID
+	CumulativeDays uint64    `gorm:"column:cumulative_days" db:"cumulative_days" json:"cumulative_days" form:"cumulative_days"` // 累积签到（天）
+	ContinuityDays uint64    `gorm:"column:continuity_days" db:"continuity_days" json:"continuity_days" form:"continuity_days"` // 连续签到（天）
+	LastTime       time.Time `gorm:"column:last_time" db:"last_time" json:"last_time" form:"last_time"`                         // 最后签到时间
 }
 ```
 
-- `M` 指向一个 `Users{}`；
-- `Table` 是数据库中的表名；
+对应数据库中的签到表（checkin）。
 
-使用一个函数来创建这样的 `userModel` 结构体：
+代码本该到此为止，那么为什么还要创建下面这个结构体和函数呢？
 
 ```go
-func User() *userModel {
-	return &userModel{
-		M:     db.DB.Model(&Users{}),
-		Table: "users",
+type checkinModel struct {
+	M     *gorm.DB
+	Table string
+}
+
+func Checkin() *checkinModel {
+	return &checkinModel{
+		M:     db.DB.Model(&Checkins{}),
+		Table: "checkins",
 	}
 }
 ```
 
+首先我们先看一下，如果没有上面这个结构体和函数，在进行 gorm 操作时，我们会怎样做：
+
+<!-- TODO -->
+
+```go
+```
+
+添加了上面的结构体后，我们会这样做：
+
+<!-- TODO -->
+
+```go
+```
 #### column
 
 在 `/internal/model/topic.go` 中，结构体 `Topics` 的字段 `Tags` 的类型是 `column.SA`，在 `/internal/model/column/column.go` 中可以看到，实际上 `column.SA` 类型就是 `[]string` 类型的别名，并且添加了两个方法：`Value`、`Scan`。
@@ -127,3 +148,7 @@ type BaseContext struct {
 - `View`: 模板返回；
 - `Json`: 通用的json响应；
 - `MDFileJson`: markdown上传图片响应；
+
+### subject
+#### TODO remind
+#### TODO subject.go
