@@ -4,7 +4,7 @@
 
 ### 2022-08-31
 
-- 创建了数据库，新建表结构，表结构的说明可以在[这里找到](./introduction_to_project_files.md)；
+- 创建了数据库，新建表结构，表结构的说明可以在[这里找到（project_documents_description）](./proj_docs_desc.md)；
 
 ### 2022-09-01
 
@@ -14,18 +14,23 @@
 
 ### 2022-09-02
 
-- `assets`、`views` 前端的部分直接拿来主义了；
+- `assets`、`views` 前端的部分拿来主义了 `:D`；
 - `cmd/main.go`、`cmd/webserver/server.go` 这是整个项目的开始，配置静态文件位置、模板、模板函数、session 中间件，然后开启一个服务；
 
 ### 2022-09-03
 
-- `internal/model` 所有 model 代码，对应数据库中的每个表项；
-- 添加 `/docs/v1.0/diary.md` 记录我的进度与以及项目过程；
-- 添加 `/docs/v1.0/introduction_to_project_files.md` 对项目文件作用说明；
+- `internal/model/*`，所有 model 代码，对应数据库中的每个表项；
+- 添加 `/docs/v1.0/code_diary.md`，记录我完成这个项目的过程；
+- 添加 `/docs/v1.0/proj_docs_desc.md`，对项目文件说明；
 
 ### 2022-09-04
 
-- 添加 `internal/service/context.go`，封装 context 上下文，添加鉴权、处理session等方法；
+- 添加 `internal/service/context.go`，封装 context 上下文，添加鉴权、处理 session 等方法；
 - `internal/entity/frontend`，前台需要用到的实体；
 - `internal/consts`，常量；
-- `internal/service/checkin.go` 关于签到的逻辑；
+- `internal/service/frontend/checkin.go`，关于签到的服务层代码；
+
+### 2022-09-05
+
+- 添加 `internal/subject/*`，TODO 这个包是干啥的？
+- `internal/service/frontend/comment.go`，关于评论的服务层代码；
