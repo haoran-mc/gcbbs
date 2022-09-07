@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+
 	"github.com/haoran-mc/gcbbs/internal/model"
 	"github.com/haoran-mc/gcbbs/pkg/config"
 )
@@ -19,14 +20,13 @@ const (
 	unreadKey  = "unread"
 )
 
-// BaseContext encapsulated context
+// BaseContext 封装context
 type BaseContext struct {
 	Ctx     *gin.Context
 	session sessions.Session
 	path    string
 }
 
-// Context initialize Basecontext
 func Context(ctx *gin.Context) *BaseContext {
 	stx := &BaseContext{
 		Ctx:     ctx,
@@ -36,7 +36,7 @@ func Context(ctx *gin.Context) *BaseContext {
 	return stx
 }
 
-// Redirect
+// Redirect 处理跳转
 func (c *BaseContext) Redirect() {
 	c.Ctx.Redirect(http.StatusFound, c.path)
 }
@@ -48,19 +48,19 @@ func (c *BaseContext) clear() {
 	_ = c.session.Save() // store the value in session into cookie
 }
 
-// Back to previous page
+// Back 返回上一页
 func (c *BaseContext) Back() *BaseContext {
 	c.path = c.Ctx.Request.RequestURI
 	return c
 }
 
-// To Setting Jump Path
+// To 设置跳转路径
 func (c *BaseContext) To(to string) *BaseContext {
 	c.path = to
 	return c
 }
 
-// WithError Error Message Jump
+// WithError 错误信息跳转
 func (c *BaseContext) WithError(err interface{}) *BaseContext {
 	errStr := ""
 
@@ -123,7 +123,7 @@ func (c *BaseContext) IsAdmin() bool {
 	}
 }
 
-// Forget 清理授权
+// Forget 清除授权
 func (c *BaseContext) Forget() {
 	c.session.Delete(userKey)
 	_ = c.session.Save()
@@ -142,13 +142,19 @@ func (c *BaseContext) unread() bool {
 	UID := c.Auth().ID
 
 	// 提醒消息
-	r := model.Remind().M.Where("receiver", UID).Where("readed_at is null").Find(&remind)
+	r := model.Remind().M.
+		Where("receiver", UID).
+		Where("readed_at is null").
+		Find(&remind)
 	if r.Error == nil && r.RowsAffected > 0 {
 		return true
 	}
 
 	// 未读系统消息
-	s := model.SystemUserNotice().M.Where("user_id", UID).Where("readed_at is null").Find(&notice)
+	s := model.SystemUserNotice().M.
+		Where("user_id", UID).
+		Where("readed_at is null").
+		Find(&notice)
 	if s.Error == nil && s.RowsAffected > 0 {
 		return true
 	}
