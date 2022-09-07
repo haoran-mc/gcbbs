@@ -34,3 +34,15 @@
 
 - 添加 `internal/subject/*`，TODO 这个包是干啥的？
 - `internal/service/frontend/comment.go`，关于评论的服务层代码；
+
+### 2022-09-06
+
+- `pkg/utils/page/*`，与页面相关的工具；
+- `pkg/utils/encrypt/encrypt.go`，加密解密；
+- `internal/service/frontend/*`，剩下的前台逻辑层代码；
+
+### 2022-09-07
+
+- `internal/app/frontend/home.go`，主页需要处理的逻辑；
+- `internal/route/frontend.go`，只有home页面的路由；
+- 今天终于可以运行代码了，可以看到主页了；
