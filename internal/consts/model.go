@@ -21,7 +21,7 @@ const CommentSource = "comment"
 const TopicSource = "topic"
 const UserSource = "user"
 
-const FollowwdState = 1
+const FollowedState = 1
 const UnFollowedState = 0
 
 const CheckinMode = "checkin" // 签到方式获取积分

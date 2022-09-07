@@ -22,7 +22,7 @@ type SystemUserNoticesModel struct {
 // SystemUserNotice ...
 func SystemUserNotice() *SystemUserNoticesModel {
 	return &SystemUserNoticesModel{
-		M:     db.DB.Model(&SystemUserNoticesModel{}),
+		M:     db.DB.Model(&SystemUserNotices{}),
 		Table: "system_user_notices",
 	}
 }

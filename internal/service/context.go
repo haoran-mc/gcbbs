@@ -94,16 +94,27 @@ func (c *BaseContext) SetAuth(users model.Users) {
 func (c *BaseContext) Auth() *model.Users {
 	var user *model.Users
 	str := c.session.Get(userKey)
-	if str != nil {
-		if v, ok := str.(string); ok {
-			_ = json.Unmarshal([]byte(v), &user)
-		}
+	if str == nil {
+		return user
+	}
+	if v, ok := str.(string); ok {
+		_ = json.Unmarshal([]byte(v), &user)
 	}
 	return user
 }
 
 // Check 检查授权
 func (c *BaseContext) Check() bool {
+	user := c.Auth()
+	if user == nil {
+		return false
+	} else {
+		return user.ID > 0
+	}
+}
+
+// IsAdmin 检查授权
+func (c *BaseContext) IsAdmin() bool {
 	user := c.Auth()
 	if user == nil {
 		return false

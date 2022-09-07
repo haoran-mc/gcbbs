@@ -70,7 +70,7 @@ func (s *sTopic) GetDetail(topicId uint64) (*fe.Topic, error) {
 	r := query.
 		Where("id", topicId).
 		Preload("Publisher.Follow", func(db *gorm.DB) *gorm.DB {
-			return db.Where("follows.state = ? AND follows.user_id = ?", consts.FollowwdState, uid)
+			return db.Where("follows.state = ? AND follows.user_id = ?", consts.FollowedState, uid)
 		}).
 		Preload("Likes", func(db *gorm.DB) *gorm.DB {
 			return db.Preload("User").
