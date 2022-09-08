@@ -10,6 +10,6 @@ type LikeReq struct {
 
 type Like struct {
 	model.Likes
-	Users      model.Users `gorm:"foreignKey:user_id"`
+	User       model.Users `gorm:"foreignKey:user_id"`
 	TargetUser model.Users `gorm:"foreignKey:target_user_id"`
 }

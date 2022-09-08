@@ -14,7 +14,7 @@ type Users struct {
 	City        string     `gorm:"column:city" db:"city" json:"city" form:"city"`                                     // 城市
 	Email       string     `gorm:"column:email" db:"email" json:"email" form:"email"`                                 // 用户邮箱
 	Avatar      string     `gorm:"column:avatar" db:"avatar" json:"avatar" form:"avatar"`                             // 用户头像
-	Integral    string     `gorm:"column:integral" db:"integral" json:"integral" form:"integral"`                     // 个人积分
+	Integral    uint64     `gorm:"column:integral" db:"integral" json:"integral" form:"integral"`                     // 个人积分
 	Site        string     `gorm:"column:site" db:"site" json:"site" form:"site"`                                     // 个人网站
 	Job         string     `gorm:"column:job" db:"job" json:"job" form:"job"`                                         // 职业
 	Desc        string     `gorm:"column:desc" db:"desc" json:"desc" form:"desc"`                                     // 简介

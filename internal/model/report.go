@@ -26,7 +26,7 @@ type reportModel struct {
 // Report ...
 func Report() *reportModel {
 	return &reportModel{
-		M:     db.DB.Model(&Reminds{}),
+		M:     db.DB.Model(&Reports{}),
 		Table: "reports",
 	}
 }

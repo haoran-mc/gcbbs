@@ -22,7 +22,7 @@ type integralLogModel struct {
 }
 
 // IntegralLos ...
-func IntegralLos() *integralLogModel {
+func IntegralLog() *integralLogModel {
 	return &integralLogModel{
 		M:     db.DB.Model(&IntegralLogs{}),
 		Table: "integral_logs",
