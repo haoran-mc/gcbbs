@@ -44,5 +44,13 @@
 ### 2022-09-07
 
 - `internal/app/frontend/home.go`，主页需要处理的逻辑；
-- `internal/route/frontend.go`，只有home页面的路由；
+- `internal/route/frontend.go`，只有 home 页面的路由；
 - 今天终于可以运行代码了，可以看到主页了；
+- 不过实际开发中应该是 route、app 和 service 同步进行，这里是把服务层的逻辑都写好，然后很方便地调用；
+
+### 2022-09-08
+
+- `internal/app/frontend/*`，剩余前台 app 下的代码；
+- `internal/route/frontend.go`，前台的路由；
+- 前台的所有页面都可以看到了，不过出现了很多 bug，修 bug 花了很久；
+- 后台所有代码：`internal/app/backend/*`，`internal/entity/backend/*`，`internal/route/backend.go`，`internal/service/backend/*`；
