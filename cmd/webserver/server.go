@@ -15,19 +15,19 @@ import (
 func Run() {
 	engine := gin.Default()
 
-	// Define functions to handle complex operations in the template
+	// 定义在模板中使用的复杂的函数
 	engine.SetFuncMap(utils.GetTemplateFuncMap())
 
-	engine.Static("/assets", "../assets")
-	engine.LoadHTMLGlob("../views/**/**/*")
+	engine.Static("/assets", "../assets")   // 静态文件位置
+	engine.LoadHTMLGlob("../views/**/**/*") // 模板位置
 
-	// Use cookies to store sessions
+	// 使用 cookie 存储 session
 	store := cookie.NewStore([]byte(config.Conf.Session.Secret))
-	// The session name becomes the key of the cookie in Browser
+	// 使用 session.name 作为浏览器中 cookie 的键
 	engine.Use(sessions.Sessions(config.Conf.Session.Name, store))
 
-	route.RegisterBackendRoute(engine)
-	route.RegisterFrontedRoute(engine)
+	route.RegisterBackendRoute(engine) // 管理员后台
+	route.RegisterFrontedRoute(engine) // 普通用户前台
 
 	if err := engine.Run(":8082"); err != nil {
 		log.Fatalf("serevr running error: %v", err)
