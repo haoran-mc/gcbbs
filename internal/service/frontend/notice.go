@@ -95,7 +95,7 @@ func (s *sNotice) GetList(req *fe.GetRemindListReq) (gin.H, error) {
 func (s *sNotice) GetRemindUnread() (int64, error) {
 	var total int64
 	c := model.Remind().M.Where("receiver", s.ctx.Auth().ID).
-		Where("readed_ati is NULL").Count(&total)
+		Where("readed_at is NULL").Count(&total)
 	if c.Error != nil {
 		return 0, c.Error
 	} else {
@@ -127,7 +127,7 @@ func (s *sNotice) ReadAll(t string) {
 		model.Remind().M.Where("readed_at is null AND receiver = ?", currUser.ID).
 			Update("readed_at", time.Now())
 	} else {
-		model.SystemUserNotice().M.Where("reader_at is null AND user_id = ?", currUser.ID).
+		model.SystemUserNotice().M.Where("readed_at is null AND user_id = ?", currUser.ID).
 			Update("readed_at", time.Now())
 	}
 }

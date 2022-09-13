@@ -22,7 +22,7 @@ type SystemNoticesModel struct {
 // SystemNotice ...
 func SystemNotice() *SystemNoticesModel {
 	return &SystemNoticesModel{
-		M:     db.DB.Model(&SystemNoticesModel{}),
+		M:     db.DB.Model(&SystemNotices{}),
 		Table: "system_notices",
 	}
 }
