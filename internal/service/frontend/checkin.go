@@ -56,7 +56,7 @@ func (s *sCheckin) Store() error {
 
 			u := tx.Model(&model.Checkins{}).Where("id", checkin.ID).Where("last_time", checkin.LastTime).Updates(data)
 			if u.Error != nil || u.RowsAffected <= 0 {
-				log.Panicln(u.Error)
+				log.Println(u.Error)
 				return errors.New("签到失败")
 			}
 		} else { // 该用户还没有签到表，第一次签到
@@ -67,7 +67,7 @@ func (s *sCheckin) Store() error {
 				LastTime:       time.Now(),
 			})
 			if c.Error != nil || c.RowsAffected <= 0 {
-				log.Panicln(c.Error)
+				log.Println(c.Error)
 				return errors.New("签到失败")
 			}
 		}
@@ -79,7 +79,7 @@ func (s *sCheckin) Store() error {
 			Mode:    consts.CheckinMode,   // 以签到的方式获取积分
 		})
 		if c.Error != nil || c.RowsAffected <= 0 {
-			log.Panicln(c.Error)
+			log.Println(c.Error)
 			return errors.New("签到失败")
 		}
 
@@ -88,7 +88,7 @@ func (s *sCheckin) Store() error {
 			"integral": gorm.Expr("integral + ?", consts.CHECKINReward),
 		})
 		if u.Error != nil || u.RowsAffected <= 0 {
-			log.Panicln(u.Error)
+			log.Println(u.Error)
 			return errors.New("签到失败")
 		}
 

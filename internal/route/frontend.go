@@ -22,8 +22,8 @@ func RegisterFrontedRoute(engine *gin.Engine) {
 	group.POST("/publish", frontend.Topic.PublishSubmit) // 话题提交
 	group.GET("/topics/:id", frontend.Topic.DetailPage)  // 话题详情
 
-	group.POST("/comments", frontend.Comment.PublishSubmit)      // 评论话题
-	group.POST("comments/delete", frontend.Comment.DeleteSubmit) // 删除评论
+	group.POST("/comments", frontend.Comment.PublishSubmit)       // 评论话题
+	group.POST("/comments/delete", frontend.Comment.DeleteSubmit) // 删除评论
 
 	group.GET("/user", frontend.User.HomePage)         // 用户中心
 	group.GET("/user/edit", frontend.User.EditPage)    // 用户编辑

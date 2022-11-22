@@ -86,7 +86,7 @@ func (s *sLike) Like(req *frontend.LikeReq) error {
 	})
 
 	if err != nil {
-		return nil
+		return err
 	}
 
 	sub := remindSub.New()

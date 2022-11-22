@@ -21,7 +21,7 @@ type Users struct {
 	Password    string     `gorm:"column:password" db:"password" json:"password" form:"password"`                     // 密码
 	IsAdmin     uint8      `gorm:"column:is_admin" db:"is_admin" json:"is_admin" form:"is_admin"`                     // 是否是管理员：1-是/0-否
 	State       uint8      `gorm:"column:state" db:"state" json:"state" form:"state"`                                 // 状态：1-正常/0-禁用
-	LastLoginIp string     `gorm:"column:last_login_ip" db:"last_login_ip" json:"last_login_ip" form:"last_login_p"`  // 最后登陆IP
+	LastLoginIp string     `gorm:"column:last_login_ip" db:"last_login_ip" json:"last_login_ip" form:"last_login_ip"` // 最后登陆IP
 	LastLoginAt *time.Time `gorm:"column:last_login_at" db:"last_login_at" json:"last_login_at" form:"last_login_at"` // 最后登陆时间
 }
 

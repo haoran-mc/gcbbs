@@ -62,7 +62,7 @@ func (s *sComment) Submit(req *frontend.SubmitCommentReq) (uint64, error) {
 	if req.ReplyId <= 0 { // TODO 不是回复
 		sub := remindSub.New()
 		sub.Attach(&remindSub.CommentObs{
-			TopicID:   req.TargetId,
+			TopicID:   req.TopicId,
 			Sender:    s.ctx.Auth().ID,
 			CommentId: comment.ID,
 		})
@@ -118,7 +118,7 @@ func (s *sComment) Delete(id uint64) error {
 	var comment *model.Comments
 	f := model.Comment().M.Where("id", id).Find(&comment)
 	if f.Error != nil || comment == nil {
-		log.Panicln(f.Error)
+		log.Println(f.Error)
 		return errors.New("删除失败")
 	}
 

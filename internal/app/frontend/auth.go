@@ -22,7 +22,7 @@ func (c *auth) RegisterPage(ctx *gin.Context) {
 // RegisterSubmit 注册提交
 func (c *auth) RegisterSubmit(ctx *gin.Context) {
 	s := service.Context(ctx)
-	p := ctx.DefaultQuery("back", "/")
+	p := ctx.DefaultQuery("back", "/") // 读取参数，当参数不存在的时候，提供一个默认值
 
 	var req fe.RegisterReq
 	if err := ctx.ShouldBind(&req); err != nil {
@@ -30,19 +30,22 @@ func (c *auth) RegisterSubmit(ctx *gin.Context) {
 		return
 	}
 
-	if err := g.Validator().Data(req).Run(context.Background()); err != nil {
+	if err := g.Validator().Data(req).Run(context.Background()); err != nil { // TODO 验证还是？
 		s.Back().WithError(err.FirstError()).Redirect()
 		return
 	}
 
-	if err := frontend.UserService(ctx).Register(&req); err != nil {
+	// 为什么一定要写成方法？直接写成函数有什么不好的地方？
+	// 每次调用方法前还要使用 UserService 函数创建一个 sUser 结构体
+	// 是不是 ctx 的关系，需要上下文，直接从上下文中获取到用户信息
+	if err := frontend.UserService(ctx).Register(&req); err != nil { // 调用 service 层服务
 		s.Back().WithError(err).Redirect()
 	} else {
 		s.To(p).WithMsg("注册成功，欢迎来到酷社区").Redirect()
 	}
 }
 
-// LoginPage 登陆页面
+// LoginPage 登录页面
 func (c *auth) LoginPage(ctx *gin.Context) {
 	p := ctx.DefaultQuery("back", "/")
 	s := service.Context(ctx)
@@ -54,7 +57,7 @@ func (c *auth) LoginPage(ctx *gin.Context) {
 	}
 }
 
-// LoginSubmit 登陆提交
+// LoginSubmit 登录提交
 func (c *auth) LoginSubmit(ctx *gin.Context) {
 	s := service.Context(ctx)
 	p := ctx.DefaultQuery("back", "/")
@@ -73,7 +76,7 @@ func (c *auth) LoginSubmit(ctx *gin.Context) {
 	if err := frontend.UserService(ctx).Login(&req); err != nil {
 		s.Back().WithError(err).Redirect()
 	} else {
-		s.To(p).WithError("登陆成功，欢迎来到酷社区")
+		s.To(p).WithError("登陆成功，欢迎来到酷社区").Redirect()
 	}
 }
 

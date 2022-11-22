@@ -108,7 +108,7 @@ func (s *sNotice) GetLetterUnread() (int64, error) {
 	return 0, nil
 }
 
-// GetSystemUnread() 获取系统未读数
+// GetSystemUnread 获取系统未读数
 func (s *sNotice) GetSystemUnread() (int64, error) {
 	var total int64
 	c := model.SystemUserNotice().M.Where("user_id", s.ctx.Auth().ID).

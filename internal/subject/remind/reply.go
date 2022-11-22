@@ -19,9 +19,10 @@ type ReplyObs struct {
 // Update 回复评论提醒
 func (o *ReplyObs) Update() {
 	var topic *model.Topics
-	r := model.Topic().M.Where("id", o.TopicID).Find(*topic)
+	r := model.Topic().M.Where("id", o.TopicID).Find(&topic)
 	if r.Error != nil || topic.ID <= 0 {
-		log.Panicln(r.Error)
+		log.Println(r.Error)
+		return
 	}
 
 	// 用户评论自己没有提醒消息
@@ -39,6 +40,6 @@ func (o *ReplyObs) Update() {
 		Action:        consts.ReplyCommentRemind,
 	})
 	if r.Error != nil {
-		log.Panicln(r.Error)
+		log.Println(r.Error)
 	}
 }

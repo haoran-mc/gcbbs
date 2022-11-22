@@ -22,7 +22,7 @@ func (o *CommentObs) Update() {
 	var topic model.Topics
 	r := model.Topic().M.Where("id", o.TopicID).First(&topic)
 	if r.Error != nil && !errors.Is(r.Error, gorm.ErrRecordNotFound) {
-		log.Panicln(r.Error)
+		log.Println(r.Error)
 		return
 	}
 
@@ -41,6 +41,6 @@ func (o *CommentObs) Update() {
 		Action:        consts.CommentTopicRemind,
 	})
 	if r.Error != nil {
-		log.Panicln(r.Error)
+		log.Println(r.Error)
 	}
 }

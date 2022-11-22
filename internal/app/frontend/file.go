@@ -33,7 +33,7 @@ func (c *cFile) MDUploadSubmit(ctx *gin.Context) {
 		return
 	}
 
-	arr := strings.Split(file.Filename, "")
+	arr := strings.Split(file.Filename, ".")
 	ext := arr[len(arr)-1]
 
 	// 检查图片格式
@@ -43,7 +43,7 @@ func (c *cFile) MDUploadSubmit(ctx *gin.Context) {
 	}
 
 	path := fmt.Sprintf("%s/topic", config.Conf.Upload.Path)
-	if _, err := os.Stat(path); os.IsNotExist(err) {
+	if _, err := os.Stat(path); os.IsNotExist(err) { // 如果没有这个路径
 		os.Mkdir(path, os.ModePerm)
 		os.Chmod(path, os.ModePerm)
 	}

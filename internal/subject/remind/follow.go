@@ -25,6 +25,6 @@ func (o *FollowObs) Update() {
 		Action:        consts.FollowUserRemind,
 	})
 	if r.Error != nil {
-		log.Panicln(r.Error)
+		log.Println(r.Error)
 	}
 }

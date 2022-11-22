@@ -33,11 +33,11 @@ func (o *LikeObs) Update() {
 
 	if o.SourceType == "comment" {
 		if f := model.Comment().M.Where("id", o.SourceID).Find(&comment); f.Error != nil || comment == nil {
-			log.Panicln(f.Error)
+			log.Println(f.Error)
 			return
 		}
 		if f := model.Topic().M.Where("id", comment.TopicId).Find(&topic); f.Error != nil || topic == nil {
-			log.Panicln(f.Error)
+			log.Println(f.Error)
 			return
 		}
 
@@ -47,7 +47,7 @@ func (o *LikeObs) Update() {
 	} else {
 		f := model.Topic().M.Where("id", o.SourceID).Find(&topic)
 		if f.Error != nil || topic == nil {
-			log.Panicln(f.Error)
+			log.Println(f.Error)
 			return
 		}
 
@@ -66,6 +66,6 @@ func (o *LikeObs) Update() {
 		Action:        action,
 	})
 	if c.Error != nil {
-		log.Panicln(c.Error)
+		log.Println(c.Error)
 	}
 }

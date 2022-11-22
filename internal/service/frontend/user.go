@@ -34,7 +34,7 @@ func UserService(ctx *gin.Context) *sUser {
 
 // genAvatar 生成用户默认头像
 func (s *sUser) genAvatar(name string, gender uint) (string, error) {
-	path := fmt.Sprintf("%s/users/", config.Conf.Upload.Path)
+	path := fmt.Sprintf("%s/users/", config.Conf.Upload.Path) // 用户头像目录
 
 	// 检查目录是否存在
 	if _, err := os.Stat(path); os.IsNotExist(err) {
@@ -42,22 +42,23 @@ func (s *sUser) genAvatar(name string, gender uint) (string, error) {
 		_ = os.Chmod(path, os.ModePerm)
 	}
 
-	avatarName := encrypt.Md5(gconv.String(time.Now().UnixMicro()))
-	avatarPath := fmt.Sprintf("user/%s.png", avatarName)
+	avatarName := encrypt.Md5(gconv.String(time.Now().UnixMicro())) // 将当前时间的时间戳转换为字符串类型，然后加密
+	avatarPath := fmt.Sprintf("users/%s.png", avatarName)
 	uploadPath := fmt.Sprintf("%s/%s", config.Conf.Upload.Path, avatarPath)
 
+	// 使用 govatar 包生成默认头像
 	if err := govatar.GenerateFileForUsername(govatar.Gender(gender-1), name, uploadPath); err != nil {
-		log.Panicln(err)
+		log.Println(err)
 		return "", err
 	} else {
-		return "assets/upload/" + avatarPath, nil
+		return "/assets/upload/" + avatarPath, nil
 	}
 }
 
 // Register 用户注册
 func (s *sUser) Register(req *fe.RegisterReq) error {
-	var user *model.Users
-	err := model.User().M.Where("name = ?", req.Name).Find(&user).Error
+	var user *model.Users                                               // 为什么不是 entity，entity 是 dto，
+	err := model.User().M.Where("name = ?", req.Name).Find(&user).Error // 查找是否已存在该用户名
 	if err != nil {
 		return errors.New("服务内部错误")
 	}
@@ -65,7 +66,7 @@ func (s *sUser) Register(req *fe.RegisterReq) error {
 		return errors.New("用户名已被注册，请更换用户名继续尝试")
 	}
 
-	avatar, err := s.genAvatar(req.Name, req.Gender)
+	avatar, err := s.genAvatar(req.Name, req.Gender) // 根据用户名和性别生成默认头像
 	if err != nil {
 		return errors.New("用户默认头像生成失败")
 	}
@@ -73,7 +74,7 @@ func (s *sUser) Register(req *fe.RegisterReq) error {
 	res := model.User().M.Create(&model.Users{
 		Name:     req.Name,
 		Avatar:   avatar,
-		Password: encrypt.GenerateFromPassword(req.ConfirmPassword),
+		Password: encrypt.GenerateFromPassword(req.Password),
 		Gender:   uint8(req.Gender),
 	})
 	if res.Error != nil || res.RowsAffected <= 0 {
@@ -120,7 +121,8 @@ func (s *sUser) Edit(req *fe.EditUserReq) error {
 	var user model.Users
 	f := model.User().M.Where("name", req.Name).Find(&user)
 	if f.Error != nil {
-		log.Panicln(f.Error)
+		log.Println(f.Error)
+		return fmt.Errorf("修改信息失败: %v", f.Error)
 	}
 	currUser := s.ctx.Auth()
 	if user.ID > 0 && currUser.ID != user.ID {
@@ -278,8 +280,7 @@ func (s *sUser) Follow(req *fe.FollowUserReq) (int, error) {
 	var follow *model.Follows
 	err = model.Follow().M.
 		Where("user_id = ? AND target_id = ?", s.ctx.Auth().ID, req.UserID).
-		Find(&follow).
-		Error
+		Find(&follow).Error
 	if err != nil {
 		return 0, err
 	}

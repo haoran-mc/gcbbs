@@ -7,8 +7,8 @@ type SubmitCommentReq struct {
 	ReplyId   uint64 `form:"reply_id"`
 	TargetId  uint64 `form:"target_id"`
 	TopicId   uint64 `v:"required#帖子ID错误" form:"topic_id"`
-	Content   string `v:"Required#请输入评论内容" form:"content"`
-	MDContent string `v:"Requried#请输入评论内容" form:"md_content"`
+	Content   string `v:"required#请输入评论内容" form:"content"`
+	MDContent string `v:"requried#请输入评论内容" form:"md_content"`
 }
 
 // DeleteCommentReq 删除评论
